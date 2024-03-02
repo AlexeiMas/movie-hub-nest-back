@@ -1,51 +1,64 @@
 import {
-	IsArray,
-	IsBoolean,
-	IsNumber,
-	IsObject,
-	IsOptional,
-	IsString,
+  IsArray,
+  IsBoolean,
+  IsNumber,
+  IsObject,
+  IsOptional,
+  IsString,
 } from 'class-validator';
+import {ApiProperty} from "@nestjs/swagger";
 
 export class Parameters {
-	@IsNumber()
-	year: number;
+  @IsNumber()
+  @ApiProperty({type: 'number'})
+  year: number;
 
-	@IsNumber()
-	duration: number;
+  @IsNumber()
+  @ApiProperty({type: 'number'})
+  duration: number;
 
-	@IsString()
-	country: string;
+  @IsString()
+  @ApiProperty()
+  country: string;
 }
 
 export class UpdateMovieDto {
-	@IsString()
-	poster: string;
+  @IsString()
+  @ApiProperty()
+  poster: string;
 
-	@IsString()
-	bigPoster: string;
+  @IsString()
+  @ApiProperty()
+  bigPoster: string;
 
-	@IsString()
-	title: string;
+  @IsString()
+  @ApiProperty()
+  title: string;
 
-	@IsString()
-	slug: string;
+  @IsString()
+  @ApiProperty()
+  slug: string;
 
-	@IsObject()
-	parameters?: Parameters;
+  @IsObject()
+  @ApiProperty({required: false})
+  parameters?: Parameters;
 
-	@IsString()
-	videoUrl: string;
+  @IsString()
+  @ApiProperty()
+  videoUrl: string;
 
-	@IsArray()
-	@IsString({ each: true })
-	genres: string[];
+  @IsArray()
+  @IsString({each: true})
+  @ApiProperty({type: 'array', items: {type: 'string'}})
+  genres: string[];
 
-	@IsArray()
-	@IsString({ each: true })
-	actors: string[];
+  @IsArray()
+  @IsString({each: true})
+  @ApiProperty({type: 'array', items: {type: 'string'}})
+  actors: string[];
 
-	@IsBoolean()
-	@IsOptional()
-	isSendTelegram?: boolean;
+  @IsBoolean()
+  @IsOptional()
+  @ApiProperty({default: false, required: false})
+  isSendTelegram?: boolean;
 }

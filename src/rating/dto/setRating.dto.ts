@@ -1,10 +1,13 @@
-import { Types } from 'mongoose';
-import { IsMongoId, IsNumber } from 'class-validator';
+import {Types} from 'mongoose';
+import {IsMongoId, IsNumber} from 'class-validator';
+import {ApiProperty} from "@nestjs/swagger";
 
 export class SetRatingDto {
-	@IsMongoId()
-	movieId: Types.ObjectId;
+  @IsMongoId()
+  @ApiProperty({type: 'string'})
+  movieId: Types.ObjectId;
 
-	@IsNumber()
-	value: number;
+  @IsNumber()
+  @ApiProperty({type: 'number'})
+  value: number;
 }

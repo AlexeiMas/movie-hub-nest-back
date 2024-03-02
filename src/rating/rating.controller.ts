@@ -1,38 +1,44 @@
 import {
-	Body,
-	Controller,
-	Get,
-	HttpCode,
-	Param,
-	Post,
-	UsePipes,
-	ValidationPipe,
+  Body,
+  Controller,
+  Get,
+  HttpCode,
+  Param,
+  Post,
+  UsePipes,
+  ValidationPipe,
 } from '@nestjs/common';
-import { RatingService } from 'src/rating/rating.service';
-import { Auth } from 'src/auth/decorators/auth.decorator';
-import { User } from 'src/user/decorators/user.decorator';
-import { IdValidationPipe } from 'src/pipes/id.validation.pipe';
-import { SetRatingDto } from 'src/rating/dto/setRating.dto';
-import { Types } from 'mongoose';
+import {RatingService} from 'src/rating/rating.service';
+import {Auth} from 'src/auth/decorators/auth.decorator';
+import {User} from 'src/user/decorators/user.decorator';
+import {IdValidationPipe} from 'src/pipes/id.validation.pipe';
+import {SetRatingDto} from 'src/rating/dto/setRating.dto';
+import {Types} from 'mongoose';
+import {ApiBearerAuth, ApiParam, ApiTags} from "@nestjs/swagger";
 
+@ApiTags('rating')
 @Controller('ratings')
 export class RatingController {
-	constructor(private readonly ratingService: RatingService) {}
+  constructor(private readonly ratingService: RatingService) {
+  }
 
-	@Get(':movieId')
-	@Auth()
-	async getMovieValueByUser(
-		@Param('movieId', IdValidationPipe) movieId: Types.ObjectId,
-		@User('_id') _id: Types.ObjectId
-	) {
-		return this.ratingService.getMovieValueByUser(movieId, _id);
-	}
+  @ApiBearerAuth()
+  @ApiParam({name: 'movieId', type: 'string'})
+  @Get(':movieId')
+  @Auth()
+  async getMovieValueByUser(
+    @Param('movieId', IdValidationPipe) movieId: Types.ObjectId,
+    @User('_id') _id: Types.ObjectId
+  ) {
+    return this.ratingService.getMovieValueByUser(movieId, _id);
+  }
 
-	@UsePipes(new ValidationPipe())
-	@Post('set-rating')
-	@HttpCode(200)
-	@Auth()
-	async setRating(@User('_id') _id: Types.ObjectId, @Body() dto: SetRatingDto) {
-		return this.ratingService.setRating(_id, dto);
-	}
+  @ApiBearerAuth()
+  @UsePipes(new ValidationPipe())
+  @Post('set-rating')
+  @HttpCode(200)
+  @Auth()
+  async setRating(@User('_id') _id: Types.ObjectId, @Body() dto: SetRatingDto) {
+    return this.ratingService.setRating(_id, dto);
+  }
 }

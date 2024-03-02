@@ -8,6 +8,7 @@ import {
 	MaxLength,
 } from 'class-validator';
 import { Transform } from 'class-transformer';
+import {ApiProperty} from "@nestjs/swagger";
 
 export class UpdateUserDto {
 	@IsEmail()
@@ -15,11 +16,13 @@ export class UpdateUserDto {
 	@MaxLength(25, {
 		message: 'Maximum length equals 25 symbols',
 	})
+	@ApiProperty({maxLength: 25})
 	email: string;
 
 	@IsString()
 	@IsOptional()
 	@Length(6, 50)
+	@ApiProperty({required: false, minLength: 6, maxLength: 50})
 	password?: string;
 
 	@IsOptional()
@@ -29,5 +32,6 @@ export class UpdateUserDto {
 		if (value === 'false') return false;
 		return value;
 	})
+	@ApiProperty({default: false, required: false})
 	isAdmin?: boolean;
 }

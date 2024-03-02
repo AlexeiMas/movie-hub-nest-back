@@ -27,6 +27,7 @@ and handling errors.
     - argon2 for hashing passwords
     - passport, passport-jwt
     - fs-extra and app-root-path for resolving paths for media files
+    - Swagger documentation API
 
 ## Get started
 
@@ -51,6 +52,13 @@ $ yarn run start:dev
 # production mode
 $ yarn run start:prod
 ```
+
+## Swagger API documentation is available, when server launched:
+
+> By default:
+> http://localhost:4200/api
+
+or set new variable **PORT** with certain value in .env file
 
 ## Test
 

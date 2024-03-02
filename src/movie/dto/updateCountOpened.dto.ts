@@ -1,6 +1,8 @@
-import { IsString } from 'class-validator';
+import {IsString} from 'class-validator';
+import {ApiProperty} from "@nestjs/swagger";
 
 export class UpdateCountOpenedDto {
-	@IsString()
-	slug: string;
+  @IsString()
+  @ApiProperty()
+  slug: string;
 }
